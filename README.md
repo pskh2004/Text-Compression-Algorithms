@@ -35,24 +35,36 @@ Enter a string when prompted. The program will:
       
       Reconstruct the original string using the inverse BWT.
 
-Example
-   Input:
-         Please enter your string : banana
+Example:
 
-   Output:
-         BWT Output: annb$aa
-         Decoded String: banana
-         RLE Output: a1n2b1$1a2
-         Huffman Encoded Output: 1101111000
-         Huffman Codes: {'a': '11', 'n': '01', 'b': '10', '$': '00'}
-         Huffman Decoded Output: annb$aa
+Input:
+      Please enter your string : banana
+         
+
+Output:
+   
+   BWT Output: annb$aa
+         
+   Decoded String: banana
+         
+   RLE Output: a1n2b1$1a2
+         
+   Huffman Encoded Output: 1101111000
+         
+   Huffman Codes: {'a': '11', 'n': '01', 'b': '10', '$': '00'}
+         
+   Huffman Decoded Output: annb$aa
+         
 Requirements
+
    Python 3.x
 
 License
+
    This project is licensed under the MIT License. See the LICENSE file for details.
 
 Contributing
+
    Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
 Author
