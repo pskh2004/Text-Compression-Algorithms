@@ -127,17 +127,17 @@ Huffman Codes: {'a': '11', 'n': '01', 'b': '10', '$': '00'}
 
 Decoded Output: banana
 
-Requirements
+Requirements:
 
 Python 3.x
 
 Tkinter (usually included with Python)
 
-License
+License:
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Contributing
+Contributing:
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
