@@ -1,5 +1,7 @@
 import heapq
 from collections import defaultdict, Counter
+import tkinter as tk
+from tkinter import ttk, messagebox
 
 # BWT Transform
 def bwt_transform(s):
@@ -94,31 +96,71 @@ def huffman_decode(encoded_output, huffman_codes):
             current_code = ""
     return decoded_output
 
-# Main Function
-def main():
-    # Example input
-    original_string = str(input("Please enter your string : "))
-    
-    # Apply BWT
-    bwt_result = bwt_transform(original_string)
-    print(f"BWT Output: {bwt_result}")
-    
-    # Decode BWT
-    decoded_string = bwt_inverse(bwt_result)
-    print(f"Decoded String: {decoded_string}")
-    
-    # Apply Run-Length Encoding to BWT output
-    rle_result = run_length_encoding(bwt_result)
-    print(f"RLE Output: {rle_result}")
-    
-    # Apply Huffman Coding to BWT output
-    huffman_encoded, huffman_codes = huffman_encode(bwt_result)
-    print(f"Huffman Encoded Output: {huffman_encoded}")
-    print(f"Huffman Codes: {huffman_codes}")
-    
-    # Decode Huffman Coding
-    huffman_decoded = huffman_decode(huffman_encoded, huffman_codes)
-    print(f"Huffman Decoded Output: {huffman_decoded}")
+# Tkinter UI
+class BWTApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("BWT, RLE, and Huffman Coding")
+        self.root.geometry("600x400")
 
+        # Input Frame
+        self.input_frame = ttk.LabelFrame(root, text="Input String")
+        self.input_frame.pack(padx=10, pady=10, fill="x")
+
+        self.input_entry = ttk.Entry(self.input_frame, width=50)
+        self.input_entry.pack(padx=10, pady=10)
+
+        self.process_button = ttk.Button(self.input_frame, text="Process", command=self.process_input)
+        self.process_button.pack(pady=10)
+
+        # Output Frame
+        self.output_frame = ttk.LabelFrame(root, text="Output")
+        self.output_frame.pack(padx=10, pady=10, fill="both", expand=True)
+
+        self.bwt_label = ttk.Label(self.output_frame, text="BWT Output:")
+        self.bwt_label.pack(anchor="w", padx=10, pady=5)
+
+        self.rle_label = ttk.Label(self.output_frame, text="RLE Output:")
+        self.rle_label.pack(anchor="w", padx=10, pady=5)
+
+        self.huffman_label = ttk.Label(self.output_frame, text="Huffman Encoded Output:")
+        self.huffman_label.pack(anchor="w", padx=10, pady=5)
+
+        self.huffman_codes_label = ttk.Label(self.output_frame, text="Huffman Codes:")
+        self.huffman_codes_label.pack(anchor="w", padx=10, pady=5)
+
+        self.decoded_label = ttk.Label(self.output_frame, text="Decoded Output:")
+        self.decoded_label.pack(anchor="w", padx=10, pady=5)
+
+        self.quit = ttk.Button(self.output_frame, text="Quit", command=self.root.destroy)
+        self.quit.pack(pady=10)
+
+    def process_input(self):
+        """Process the input string and display the results."""
+        input_string = self.input_entry.get()
+        if not input_string:
+            messagebox.showerror("Error", "Please enter a string.")
+            return
+
+        # Apply BWT
+        bwt_result = bwt_transform(input_string)
+        self.bwt_label.config(text=f"BWT Output: {bwt_result}")
+
+        # Decode BWT
+        decoded_string = bwt_inverse(bwt_result)
+        self.decoded_label.config(text=f"Decoded Output: {decoded_string}")
+
+        # Apply Run-Length Encoding
+        rle_result = run_length_encoding(bwt_result)
+        self.rle_label.config(text=f"RLE Output: {rle_result}")
+
+        # Apply Huffman Coding
+        huffman_encoded, huffman_codes = huffman_encode(bwt_result)
+        self.huffman_label.config(text=f"Huffman Encoded Output: {huffman_encoded}")
+        self.huffman_codes_label.config(text=f"Huffman Codes: {huffman_codes}")
+
+# Run the application
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = BWTApp(root)
+    root.mainloop()
