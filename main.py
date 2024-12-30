@@ -96,12 +96,77 @@ def huffman_decode(encoded_output, huffman_codes):
             current_code = ""
     return decoded_output
 
+# Shannon-Fano Coding
+def shannon_fano_encode(s):
+    """Encode the input string using Shannon-Fano coding."""
+    if not s:
+        return "", {}
+
+    # Calculate character frequencies
+    freq_map = Counter(s)
+    sorted_chars = sorted(freq_map.keys(), key=lambda x: freq_map[x], reverse=True)
+
+    # Build Shannon-Fano codes
+    def build_shannon_fano_codes(characters, prefix=""):
+        if len(characters) == 1:
+            return {characters[0]: prefix}
+        mid = len(characters) // 2
+        left_codes = build_shannon_fano_codes(characters[:mid], prefix + "0")
+        right_codes = build_shannon_fano_codes(characters[mid:], prefix + "1")
+        return {**left_codes, **right_codes}
+
+    shannon_fano_codes = build_shannon_fano_codes(sorted_chars)
+    encoded_output = ''.join([shannon_fano_codes[char] for char in s])
+    return encoded_output, shannon_fano_codes
+
+def shannon_fano_decode(encoded_output, shannon_fano_codes):
+    """Decode the Shannon-Fano-encoded string using the Shannon-Fano codes."""
+    reverse_codes = {code: char for char, code in shannon_fano_codes.items()}
+    current_code = ""
+    decoded_output = ""
+    for bit in encoded_output:
+        current_code += bit
+        if current_code in reverse_codes:
+            decoded_output += reverse_codes[current_code]
+            current_code = ""
+    return decoded_output
+
+# LZ77 Compression
+def lz77_encode(s):
+    """Apply LZ77 Compression to the input string."""
+    encoded = []
+    buffer_size = 100
+    i = 0
+    while i < len(s):
+        match = (0, 0, s[i])
+        for j in range(max(0, i - buffer_size), i):
+            k = 0
+            while i + k < len(s) and s[j + k] == s[i + k]:
+                k += 1
+            if k > match[1]:
+                match = (i - j, k, s[i + k] if i + k < len(s) else '')
+        encoded.append(match)
+        i += match[1] + 1
+    return encoded
+
+def lz77_decode(encoded_data):
+    """Decode LZ77-encoded data."""
+    decoded = []
+    for item in encoded_data:
+        offset, length, char = item
+        if length > 0:
+            start = len(decoded) - offset
+            for i in range(length):
+                decoded.append(decoded[start + i])
+        decoded.append(char)
+    return decoded
+
 # Tkinter UI
-class BWTApp:
+class CompressionApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("BWT, RLE, and Huffman Coding")
-        self.root.geometry("600x400")
+        self.root.title("Text Compression Algorithms")
+        self.root.geometry("800x600")
 
         # Input Frame
         self.input_frame = ttk.LabelFrame(root, text="Input String")
@@ -120,6 +185,9 @@ class BWTApp:
         self.bwt_label = ttk.Label(self.output_frame, text="BWT Output:")
         self.bwt_label.pack(anchor="w", padx=10, pady=5)
 
+        self.decoded_label = ttk.Label(self.output_frame, text="Decoded String:")
+        self.decoded_label.pack(anchor="w", padx=10, pady=5)
+
         self.rle_label = ttk.Label(self.output_frame, text="RLE Output:")
         self.rle_label.pack(anchor="w", padx=10, pady=5)
 
@@ -129,11 +197,16 @@ class BWTApp:
         self.huffman_codes_label = ttk.Label(self.output_frame, text="Huffman Codes:")
         self.huffman_codes_label.pack(anchor="w", padx=10, pady=5)
 
-        self.decoded_label = ttk.Label(self.output_frame, text="Decoded Output:")
-        self.decoded_label.pack(anchor="w", padx=10, pady=5)
+        self.shannon_fano_label = ttk.Label(self.output_frame, text="Shannon-Fano Encoded Output:")
+        self.shannon_fano_label.pack(anchor="w", padx=10, pady=5)
 
-        self.quit = ttk.Button(self.output_frame, text="Quit", command=self.root.destroy)
-        self.quit.pack(pady=10)
+        self.shannon_fano_codes_label = ttk.Label(self.output_frame, text="Shannon-Fano Codes:")
+        self.shannon_fano_codes_label.pack(anchor="w", padx=10, pady=5)
+
+        self.lz77_label = ttk.Label(self.output_frame, text="LZ77 Encoded Output:")
+        self.lz77_label.pack(anchor="w", padx=10, pady=5)
+
+        self.q_button = ttk.Button(self.output_frame, text="Quit", command=self.root.destroy).pack(pady=10)
 
     def process_input(self):
         """Process the input string and display the results."""
@@ -148,19 +221,28 @@ class BWTApp:
 
         # Decode BWT
         decoded_string = bwt_inverse(bwt_result)
-        self.decoded_label.config(text=f"Decoded Output: {decoded_string}")
+        self.decoded_label.config(text=f"Decoded String: {decoded_string}")
 
         # Apply Run-Length Encoding
         rle_result = run_length_encoding(bwt_result)
         self.rle_label.config(text=f"RLE Output: {rle_result}")
 
         # Apply Huffman Coding
-        huffman_encoded, huffman_codes = huffman_encode(bwt_result)
+        huffman_encoded, huffman_codes = huffman_encode(input_string)
         self.huffman_label.config(text=f"Huffman Encoded Output: {huffman_encoded}")
         self.huffman_codes_label.config(text=f"Huffman Codes: {huffman_codes}")
+
+        # Apply Shannon-Fano Coding
+        shannon_fano_encoded, shannon_fano_codes = shannon_fano_encode(input_string)
+        self.shannon_fano_label.config(text=f"Shannon-Fano Encoded Output: {shannon_fano_encoded}")
+        self.shannon_fano_codes_label.config(text=f"Shannon-Fano Codes: {shannon_fano_codes}")
+
+        # Apply LZ77
+        lz77_encoded = lz77_encode(input_string)
+        self.lz77_label.config(text=f"LZ77 Encoded Output: {lz77_encoded}")
 
 # Run the application
 if __name__ == "__main__":
     root = tk.Tk()
-    app = BWTApp(root)
+    app = CompressionApp(root)
     root.mainloop()
