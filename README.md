@@ -207,6 +207,6 @@ This project is open-source and available under the MIT License. Feel free to mo
 
 Author
 
-Puneet Singh
+pskh2004
 
-GitHub Profile
+
