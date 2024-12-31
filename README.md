@@ -1,56 +1,84 @@
-Text Compression Algorithms with Tkinter GUI
-This repository implements various text compression algorithms, including Burrows-Wheeler Transform (BWT), Run-Length Encoding (RLE), Huffman Coding, Delta Encoding, and LZ77 Compression. These techniques are widely used in data compression and provide a foundation for understanding more advanced compression methods. Additionally, a Tkinter-based GUI is provided for an interactive user experience.
+Text Compression Algorithms
+
+This repository contains a Python-based GUI application for exploring various text compression algorithms. The project demonstrates the implementation and use of popular text compression techniques, enabling users to visualize how these algorithms transform and compress data.
+
+Repository Overview
+
+GUI Application: A Tkinter-based GUI to process text inputs and display outputs for each compression algorithm.
+
+Algorithms Implemented:
+
+Burrows-Wheeler Transform (BWT)
+
+Run-Length Encoding (RLE)
+
+Huffman Coding
+
+Shannon-Fano Coding
+
+LZ77 Compression
 
 Features
-1.Burrows-Wheeler Transform (BWT):
 
-Transforms a string into a format that is more amenable to compression.
+1. Burrows-Wheeler Transform (BWT)
 
-Includes both the transform and inverse transform functions.
+Description: Rearranges a string into a permutation that is more amenable to compression.
 
-2.Run-Length Encoding (RLE):
+Usage:
 
-Compresses a string by replacing consecutive repeated characters with a single character and a count.
+Transforms an input string.
 
-3.Huffman Coding:
+Reconstructs the original string from the transformed data.
 
-Builds a Huffman tree based on character frequencies and generates optimal prefix codes for compression.
+2. Run-Length Encoding (RLE)
 
-Includes encoding and decoding functions.
+Description: Compresses data by replacing consecutive repeating characters with a single character and a count.
 
-4.Delta Encoding:
+Usage:
 
-Compresses a list of integers by encoding the differences between consecutive values.
+Compresses the output of the BWT for further space optimization.
 
-5.LZ77 Compression:
+3. Huffman Coding
 
-A sliding window-based compression algorithm that replaces repeated sequences with references to previous occurrences.
+Description: Uses a frequency-based binary tree to encode characters in a string, achieving optimal compression.
 
-6.Tkinter GUI:
+Usage:
 
-Provides an interactive interface for inputting a string and viewing the results of BWT, RLE, Huffman Coding, Delta Encoding, and LZ77 Compression.
+Encodes the string into a binary representation.
 
-Displays the BWT output, decoded string, RLE output, Huffman-encoded output, Huffman codes, Delta-encoded output, and LZ77-encoded output.
+Generates a dictionary of Huffman codes for decoding.
 
+4. Shannon-Fano Coding
 
+Description: An early entropy encoding algorithm that assigns binary codes based on character frequency.
 
-How to Use
+Usage:
 
-Prerequisites
+Encodes the string using Shannon-Fano rules.
 
-1.Python 3.x: Ensure Python is installed on your system.
+Provides a map of character codes for decoding.
 
-2.Tkinter: Usually included with Python.
+5. LZ77 Compression
 
-If not, install it using your package manager.
+Description: Uses a sliding window to identify and encode repeating substrings.
 
-3.Pillow: For image display (if needed).
+Usage:
 
-Install it using pip:
+Compresses the input string using offset-length pairs.
 
-pip install pillow
+6. Graphical User Interface
 
-Running the Application
+Built With: Tkinter
+
+Features:
+
+Input text field for user data.
+
+Buttons to process and quit the application.
+
+Display area for the output of each algorithm.
+
+Installation
 
 1.Clone the repository:
 
@@ -58,90 +86,106 @@ git clone https://github.com/pskh2004/Text-Compression-Algorithms.git
 
 cd Text-Compression-Algorithms
 
-2.Run the script:
+2.Ensure Python 3.x is installed on your system.
+
+3.Install dependencies (if necessary):
+
+pip install tk
+
+Usage
+
+1.Run the application:
 
 python main.py
 
-3.Use the GUI:
+2.Enter your desired text in the input field.
 
-Enter a string in the input field.
+3.Click Process to view:
 
-Click the "Process" button to view the results:
+Burrows-Wheeler Transform results.
 
-BWT Output
+Run-Length Encoded string.
 
-Decoded String
+Huffman-encoded binary string and codes.
 
-RLE Output
+Shannon-Fano-encoded binary string and codes.
 
-Huffman Encoded Output
+LZ77 Encoded data.
 
-Huffman Codes
+Observe the outputs displayed in the output section.
 
-Delta Encoded Output
+4.To exit, click Quit.
 
-LZ77 Encoded Output
 
-Click the "Quit" button to close the application.
+Code Details
 
-Example Workflow
+File: main.py
 
-Enter a string (e.g., "banana").
+Algorithm Implementations:
 
-Click "Process".
+BWT Transform: Functions bwt_transform and bwt_inverse.
 
-View the results:
+Run-Length Encoding: Function run_length_encoding.
 
-BWT Output: annb$aa
+Huffman Coding:
 
-Decoded String: banana
+Functions huffman_encode and huffman_decode.
 
-RLE Output: a1n2b1$1a2
+Tree construction using HuffmanNode and build_huffman_tree.
 
-Huffman Encoded Output: Binary representation.
+Shannon-Fano Coding: Functions shannon_fano_encode and shannon_fano_decode.
 
-Huffman Codes: Mapping of characters to binary codes.
+LZ77 Compression:
 
-Delta Encoded Output: List of delta values.
+Functions lz77_encode and lz77_decode.
 
-LZ77 Encoded Output: List of tuples representing LZ77 compression.
+GUI Components:
 
-Code Structure
+Built using the Tkinter library.
 
-1.bwt_transform(s): Applies the Burrows-Wheeler Transform to the input string.
+Input and output are organized using frames and labels.
 
-2.bwt_inverse(bwt_str): Reconstructs the original string from the BWT output.
+Buttons for interaction.
 
-3.run_length_encoding(s): Applies Run-Length Encoding to the input string.
+Example Outputs
 
-4.HuffmanNode: Represents a node in the Huffman tree.
+Input: abracadabra
 
-5.build_huffman_tree(freq_map): Builds the Huffman tree from the frequency map.
+Outputs
 
-6.build_huffman_codes(node, prefix, code_map): Builds Huffman codes by traversing the Huffman tree.
+BWT Output: ard$rcaaaabb
 
-7.huffman_encode(s): Encodes the input string using Huffman coding.
+Decoded String: abracadabra
 
-8.huffman_decode(encoded_output, huffman_codes): Decodes the Huffman-encoded string using the Huffman codes.
+RLE Output: a1r1d1$1r1c1a3b2
 
-9.delta_encode(data): Applies Delta Encoding to the input data.
+Huffman Encoded Output: 101011011... (varies by input frequency)
 
-10.delta_decode(encoded_data): Decodes Delta-encoded data.
+Shannon-Fano Encoded Output: 010110110... (varies by input frequency)
 
-11.lz77_encode(s): Applies LZ77 Compression to the input string.
+LZ77 Encoded Output: [(0, 0, 'a'), (0, 0, 'b'), ...]
 
-12.lz77_decode(encoded_data): Decodes LZ77-encoded data.
 
-13.CompressionApp: Tkinter GUI class for interacting with the compression algorithms.
+Contributing
 
-License:
+Contributions are welcome! If you'd like to contribute:
+
+1.Fork this repository.
+
+2.Create a feature branch:
+ 
+git checkout -b feature/your-feature
+
+3.Commit your changes:
+ 
+git commit -m "Add your feature"
+
+4.Push to your branch:
+ 
+git push origin feature/your-feature
+
+5.Open a pull request.
+
+License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-Contributing:
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
-
-Author,
-Pskh2004
-
