@@ -1,191 +1,212 @@
-Text Compression Algorithms
-
-This repository contains a Python-based GUI application for exploring various text compression algorithms. The project demonstrates the implementation and use of popular text compression techniques, enabling users to visualize how these algorithms transform and compress data.
-
-Repository Overview
-
-GUI Application: A Tkinter-based GUI to process text inputs and display outputs for each compression algorithm.
-
-Algorithms Implemented:
-
-Burrows-Wheeler Transform (BWT)
-
-Run-Length Encoding (RLE)
-
-Huffman Coding
-
-Shannon-Fano Coding
-
-LZ77 Compression
+Text Compression Algorithms Application
+This is a Python-based GUI application that demonstrates various text compression algorithms, including Burrows-Wheeler Transform (BWT), Run-Length Encoding (RLE), Huffman Coding, Shannon-Fano Coding, and LZ77 Compression. The application allows users to encode a string using these algorithms or decode LZ77-compressed data.
 
 Features
 
+Encoding Mode:
+
+Compresses an input string using the following algorithms:
+
+Burrows-Wheeler Transform (BWT): Rearranges the string to make it more compressible.
+
+Run-Length Encoding (RLE): Compresses consecutive repeated characters.
+
+Huffman Coding: Builds a prefix-free code based on character frequencies.
+
+Shannon-Fano Coding: Splits characters into groups based on frequencies.
+
+LZ77 Compression: Finds repeated substrings and replaces them with references.
+
+Decoding Mode:
+
+Decodes LZ77-compressed data back to the original string.
+
+User-Friendly Interface:
+
+Provides step-by-step explanations and intermediate results for each algorithm.
+
+Includes example inputs for decoding to guide the user.
+
+How to Use
+
+1. Running the Application
+   
+Ensure you have Python installed on your system.
+
+Install the required libraries (if not already installed):
+
+pip install tkinter
+
+Run the script:
+
+python compression_app.py
+
+2. Using the Application
+
+Choose Mode:
+
+Select Encode to compress a string.
+
+Select Decode to decompress LZ77-encoded data.
+
+Input:
+
+For Encoding: Enter a string in the input field (e.g., banana).
+
+For Decoding: Enter LZ77-encoded data in the correct format (e.g., [(0, 0, 'b'), (0, 0, 'a'), (2, 1, 'n'), (3, 1, '')]).
+
+Process:
+
+Click the Process button to perform the selected operation.
+
+Output:
+
+The results will be displayed in the output frame, including intermediate steps and final output.
+
+Algorithms Explained
+
 1. Burrows-Wheeler Transform (BWT)
+   
+Purpose: Rearranges the input string to make it more compressible.
 
-Description: Rearranges a string into a permutation that is more amenable to compression.
+Steps:
 
-Usage:
+Append a special character ($) to the string.
 
-Transforms an input string.
+Generate all rotations of the string.
 
-Reconstructs the original string from the transformed data.
+Sort the rotations lexicographically.
+
+Extract the last column of the sorted rotations to get the BWT output.
 
 2. Run-Length Encoding (RLE)
+   
+Purpose: Compresses consecutive repeated characters.
 
-Description: Compresses data by replacing consecutive repeating characters with a single character and a count.
+Steps:
 
-Usage:
+Traverse the string and count consecutive repeated characters.
 
-Compresses the output of the BWT for further space optimization.
+Replace repeated characters with the character followed by the count.
 
 3. Huffman Coding
+   
+Purpose: Builds a prefix-free code based on character frequencies.
 
-Description: Uses a frequency-based binary tree to encode characters in a string, achieving optimal compression.
+Steps:
 
-Usage:
+Calculate the frequency of each character in the string.
 
-Encodes the string into a binary representation.
+Build a Huffman tree using a priority queue.
 
-Generates a dictionary of Huffman codes for decoding.
+Traverse the tree to generate Huffman codes for each character.
+
+Encode the string using the generated codes.
 
 4. Shannon-Fano Coding
+   
+Purpose: Splits characters into groups based on frequencies.
 
-Description: An early entropy encoding algorithm that assigns binary codes based on character frequency.
+Steps:
 
-Usage:
+Calculate the frequency of each character in the string.
 
-Encodes the string using Shannon-Fano rules.
+Sort characters by frequency in descending order.
 
-Provides a map of character codes for decoding.
+Recursively split characters into two groups and assign binary codes.
 
 5. LZ77 Compression
+   
+Purpose: Finds repeated substrings and replaces them with references.
 
-Description: Uses a sliding window to identify and encode repeating substrings.
+Steps:
 
-Usage:
+Traverse the string and search for the longest match in a sliding window.
 
-Compresses the input string using offset-length pairs.
+Encode the match as a tuple (offset, length, next_char).
 
-6. Graphical User Interface
+Repeat until the entire string is processed.
 
-Built With: Tkinter
+Example Inputs and Outputs
 
-Features:
+Encoding Example
 
-Input text field for user data.
+Input: banana
 
-Buttons to process and quit the application.
+Output:
 
-Display area for the output of each algorithm.
+BWT Output: annb$aa
 
-Installation
+RLE Output: a1n2b1$1a2
 
-1.Clone the repository:
+Huffman Encoded Output: 0110010110
 
-git clone https://github.com/pskh2004/Text-Compression-Algorithms.git
+Shannon-Fano Encoded Output: 010100110
 
-cd Text-Compression-Algorithms
+LZ77 Encoded Output: [(0, 0, 'b'), (0, 0, 'a'), (2, 1, 'n'), (3, 1, '')]
 
-2.Ensure Python 3.x is installed on your system.
+Decoding Example
 
-3.Install dependencies (if necessary):
+Input: [(0, 0, 'b'), (0, 0, 'a'), (2, 1, 'n'), (3, 1, '')]
 
-pip install tk
+Output: banana
 
-Usage
+Code Structure
 
-1.Run the application:
+1. Functions
 
-python main.py
+bwt_transform(s): Applies BWT to the input string.
 
-2.Enter your desired text in the input field.
+bwt_inverse(bwt_str): Reconstructs the original string from BWT output.
 
-3.Click Process to view:
+run_length_encoding(s): Applies RLE to the input string.
 
-Burrows-Wheeler Transform results.
+huffman_encode(s): Encodes the input string using Huffman Coding.
 
-Run-Length Encoded string.
+shannon_fano_encode(s): Encodes the input string using Shannon-Fano Coding.
 
-Huffman-encoded binary string and codes.
+lz77_encode(s): Compresses the input string using LZ77.
 
-Shannon-Fano-encoded binary string and codes.
+lz77_decode(encoded_data): Decodes LZ77-compressed data.
 
-LZ77 Encoded data.
+2. GUI Class
+   
+CompressionApp:
 
-Observe the outputs displayed in the output section.
+Handles the user interface and input/output.
 
-4.To exit, click Quit.
+Displays explanations and results in a Text widget.
 
+Toggles between encoding and decoding modes using radio buttons.
 
-Code Details
+Dependencies
 
-File: main.py
+Python 3.x
 
-Algorithm Implementations:
+tkinter (included in Python standard library)
 
-BWT Transform: Functions bwt_transform and bwt_inverse.
+heapq, collections, ast (included in Python standard library)
 
-Run-Length Encoding: Function run_length_encoding.
+Limitations
 
-Huffman Coding:
+Decoding is only supported for LZ77-compressed data.
 
-Functions huffman_encode and huffman_decode.
+The application does not handle large inputs efficiently due to the nature of the algorithms.
 
-Tree construction using HuffmanNode and build_huffman_tree.
+Future Improvements
 
-Shannon-Fano Coding: Functions shannon_fano_encode and shannon_fano_decode.
+Add support for decoding other compression algorithms (e.g., Huffman, Shannon-Fano).
 
-LZ77 Compression:
+Optimize the algorithms for large inputs.
 
-Functions lz77_encode and lz77_decode.
-
-GUI Components:
-
-Built using the Tkinter library.
-
-Input and output are organized using frames and labels.
-
-Buttons for interaction.
-
-Example Outputs
-
-Input: abracadabra
-
-Outputs
-
-BWT Output: ard$rcaaaabb
-
-Decoded String: abracadabra
-
-RLE Output: a1r1d1$1r1c1a3b2
-
-Huffman Encoded Output: 101011011... (varies by input frequency)
-
-Shannon-Fano Encoded Output: 010110110... (varies by input frequency)
-
-LZ77 Encoded Output: [(0, 0, 'a'), (0, 0, 'b'), ...]
-
-
-Contributing
-
-Contributions are welcome! If you'd like to contribute:
-
-1.Fork this repository.
-
-2.Create a feature branch:
- 
-git checkout -b feature/your-feature
-
-3.Commit your changes:
- 
-git commit -m "Add your feature"
-
-4.Push to your branch:
- 
-git push origin feature/your-feature
-
-5.Open a pull request.
+Add file compression/decompression functionality.
 
 License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is open-source and available under the MIT License. Feel free to modify and distribute it as needed.
+
+Author
+
+Puneet Singh
+
+GitHub Profile
