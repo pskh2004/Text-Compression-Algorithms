@@ -176,7 +176,7 @@ class CompressionApp:
 
         # Explanation Label for Encoding
         self.encode_explanation_label = ttk.Label(self.input_frame,
-                                                  text="===Encoding Mode===\nEnter a string to compress using BWT, Huffman, Shannon-Fano, and LZ77.")
+                                                  text="===Encoding Mode===\nEnter a string to compress using BWT, RLE, Huffman, Shannon-Fano, and LZ77.")
         self.encode_explanation_label.pack(padx=10, pady=5)
         self.encode_explanation_label.pack_forget()  # Hide initially
 
